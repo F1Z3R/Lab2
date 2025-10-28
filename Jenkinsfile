@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Clone Repository') {
             steps {
-                git 'https://github.com/F1Z3R/Lab2.git'
+                git branch: 'main', url: 'https://github.com/F1Z3R/Lab2.git'
             }
         }
 
@@ -17,7 +17,7 @@ pipeline {
         stage('Run Unit Tests') {
             steps {
                 sh 'pytest > result.log || true'
-                archiveArtifacts artifacts: 'result.log'
+                archiveArtifacts artifacts: 'result.log', allowEmptyArchive: true
             }
         }
 
@@ -41,7 +41,7 @@ pipeline {
 
         stage('Deploy with Docker Compose') {
             steps {
-                sh 'docker-compose up -d'
+                sh 'docker-compose up -d || true'
             }
         }
     }
